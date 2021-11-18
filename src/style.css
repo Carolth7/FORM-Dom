@@ -8,9 +8,6 @@ body {
   height: 100vh;
 }
 
-#form {
-}
-
 .container-fluid {
   background: linear-gradient(150deg, #a975a2, #fff7b5);
   font-size: 1.1rem;
@@ -29,6 +26,7 @@ h1 {
 .btn-primary {
   background-color: #5b184eb8;
   border: beige;
+  margin-left: 1rem;
 }
 
 .btn-secondary {

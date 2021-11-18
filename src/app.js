@@ -43,23 +43,47 @@ const isInvalid = input => {
 };
 
 const isText = text => {
-  return /^[a-zA-Z]*$/.test(text);
+  return /^[a-zñA-ZÑ-áéíóú ]*$/.test(text);
 };
 
 const isNumber = number => {
   return number % 1 == 0 && number > 0;
 };
 
+//ALGORITMO DE LUHN PARA VERIFICAR TARJETA DE CRÉDITO
+const valid_credit_card = value => {
+  // Accept only digits, dashes or spaces
+  if (/[^0-9-\s]+/.test(value)) return false;
+
+  // The Luhn Algorithm. It's so pretty.
+  let nCheck = 0,
+    bEven = false;
+  value = value.replace(/\D/g, "");
+
+  for (var n = value.length - 1; n >= 0; n--) {
+    var cDigit = value.charAt(n),
+      nDigit = parseInt(cDigit, 10);
+
+    if (bEven && (nDigit *= 2) > 9) nDigit -= 9;
+
+    nCheck += nDigit;
+    bEven = !bEven;
+  }
+
+  return nCheck % 10 == 0;
+};
+
 CARD.addEventListener("focusout", () => {
   isNumber(CARD.value) ? isValid(CARD) : isInvalid(CARD);
-  //extension(CARD.value) ? isValid(CARD) : isInvalid(CARD);
+
   if (CARD.value.length <= 19 && CARD.value.length >= 16) {
     isValid(CARD);
   } else {
     isInvalid(CARD);
   }
+
+  valid_credit_card(CARD.value) ? isValid(CARD) : isInvalid(CARD);
 });
-//ALGORITMO DE LUHN PARA VERIFICAR TARJETA DE CRÉDITO
 
 CVC.addEventListener("focusout", () => {
   isNumber(CVC.value) ? isValid(CVC) : isInvalid(CVC);
@@ -80,15 +104,21 @@ AMOUNT.addEventListener("focusout", () => {
 });
 
 FIRSTNAME.addEventListener("focusout", () => {
-  isText(FIRSTNAME.value) ? isValid(FIRSTNAME) : isInvalid(FIRSTNAME);
+  isText(FIRSTNAME.value) && FIRSTNAME.value.length > 0
+    ? isValid(FIRSTNAME)
+    : isInvalid(FIRSTNAME);
 });
 
 LASTNAME.addEventListener("focusout", () => {
-  isText(LASTNAME.value) ? isValid(LASTNAME) : isInvalid(LASTNAME);
+  isText(LASTNAME.value) && FIRSTNAME.value.length > 0
+    ? isValid(LASTNAME)
+    : isInvalid(LASTNAME);
 });
 
 CITY.addEventListener("focusout", () => {
-  isText(CITY.value) ? isValid(CITY) : isInvalid(CITY);
+  isText(CITY.value) && FIRSTNAME.value.length > 0
+    ? isValid(CITY)
+    : isInvalid(CITY);
 });
 
 let STATEVALUES = [];
